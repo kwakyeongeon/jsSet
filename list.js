@@ -1,37 +1,61 @@
 const listForm = document.querySelector("#listForm");
 const listInput = listForm.querySelector("input");
 const lists = document.querySelector("#lists");
-console.log(listForm);
-console.log(listInput);
-console.dir(listForm);
-console.dir(listInput);
+const SAVE_LIST = "Lists";
+const RESET = "";
+let Lists = [];
 
 function listHandler(event){
     event.preventDefault();
     const content = listInput.value;
-    listInput.value ="";
-    paintList(content);
+    const ListObj = {text : content, id : Date.now()};
+    listInput.value =RESET;
+    paintList(ListObj);
+    Lists.push(ListObj);
+    saveList();
 
 }
 
-function paintList(content){
+function paintList(ListObj){
     const li = document.createElement("li");
     const span = document.createElement("span");
-    span.innerText=content;
+    span.innerText=ListObj.text;
+    li.id=ListObj.id;
     const button = document.createElement("button");
     button.innerText="Delete";
     button.addEventListener("click",deleteList);
     li.appendChild(span);
     li.appendChild(button);
     lists.appendChild(li);
+    console.dir(li);
     
 }
 
 function deleteList(event){
-    console.dir(event);
+    const li =event.target.parentElement;
+    li.remove();
+    Lists=Lists.filter((list) => list.id !== parseInt(li.id));
+    saveList();
+
+}
+
+function saveList(){
+    const stringLists = JSON.stringify(Lists);
+    localStorage.setItem(SAVE_LIST,stringLists);
 }
 
 
 listForm.addEventListener("submit",listHandler);
+
+const savedLists = localStorage.getItem(SAVE_LIST);
+
+if(savedLists){
+    Lists=JSON.parse(savedLists);
+    console.log(Lists);
+    Lists.forEach(paintList);
+        
+    
+}
+
 
 
