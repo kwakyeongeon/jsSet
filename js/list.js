@@ -27,7 +27,6 @@ function paintList(ListObj){
     li.appendChild(span);
     li.appendChild(button);
     lists.appendChild(li);
-    console.dir(li);
     
 }
 
@@ -51,7 +50,6 @@ const savedLists = localStorage.getItem(SAVE_LIST);
 
 if(savedLists){
     Lists=JSON.parse(savedLists);
-    console.log(Lists);
     Lists.forEach(paintList);
         
     
