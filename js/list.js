@@ -8,7 +8,8 @@ let Lists = [];
 function listHandler(event){
     event.preventDefault();
     const content = listInput.value;
-    const ListObj = {text : content, id : Date.now()};
+    const dataId = Date.now();
+    const ListObj = {text : content, id : dataId};
     listInput.value =RESET;
     paintList(ListObj);
     Lists.push(ListObj);
